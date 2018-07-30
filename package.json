@@ -1,10 +1,11 @@
 {
   "name": "calvium-secure-password-validator",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "A validator for secure passwords",
   "main": "src/index.js",
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "testWatch": "jest --watch"
   },
   "repository": {
     "type": "git",
