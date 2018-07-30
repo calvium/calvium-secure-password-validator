@@ -1,16 +1,16 @@
-const {regex, params} = require('./constants');
+const {regex, params, messages} = require('./constants');
 
 function checkLength(input, isAdmin) {
   if (!input) return {valid: false, message: 'No password'};
   const minLength = isAdmin ? params.MIN_ADMIN_LENGTH : params.MIN_LENGTH;
   const valid = input.length >= minLength;
-  return {valid: valid, message: valid ? null : 'Password is too short. ' + minLength + ' is the minimum'};
+  return {valid: valid, message: valid ? null : messages.tooShort(minLength)};
 }
 
 function checkWhiteSpace(input) {
   const valid = regex.noSpaces.test(input);
   if (valid) return {valid: true};
-  return {valid: false, message: 'Passwords cannot contain spaces'};
+  return {valid: false, message: messages.noSpaces};
 }
 
 function checkMeetsMinimumCharacterClasses(input) {
@@ -24,15 +24,7 @@ function checkMeetsMinimumCharacterClasses(input) {
   }
   return {
     valid: false,
-    message: `Password must meet at least contain at least three of the following: 
-- Uppercase characters of European languages
-- Lowercase characters of European languages
-- Base 10 digits (i.e. 0 through 9)
-- Non alphanumeric characters: ~!@#$%^&*_-+=\`\\|{}][)(;:’”<>,./?
-- Any Unicode character that is categorized as an alphabetic character but is not uppercase or lowercase.  This includes Unicode characters from Asian languages.
-
-Your password matched ${passes} of these.
-`,
+    message: messages.requirements,
   };
 }
 

@@ -2,13 +2,13 @@ const validate = require('./index');
 const {regex} = require('./constants');
 
 test('null, undefined to be false', () => {
-  expect(validate(null).valid).toBe(false);
-  expect(validate(undefined).valid).toBe(false);
+  expect(validate(null, false).valid).toBe(false);
+  expect(validate(undefined, false).valid).toBe(false);
 });
 
 test('non admin: 7 chars is too short', () => {
-  expect(validate('abcdefg').valid).toBe(false);
-  expect(validate('abcdefg').message).toBe('Password is too short. 8 is the minimum');
+  expect(validate('abcdefg', false).valid).toBe(false);
+  expect(validate('abcdefg', false).message).toBe('Password is too short. 8 is the minimum');
 });
 
 test('admin: 13 chars is too short', () => {
@@ -35,7 +35,7 @@ test('lowercase Euro works with accented chars and ASCII', () => {
 });
 
 test('alphanumeric but not uppercase or lowercase', () => {
-  const tests = ['あ', '中', 'c'];
+  const tests = ['あ', '中'];
   tests.forEach(t => {
     const valid = regex.nonUppercaseAndLowercaseAlphabeticalCharacters.test(t);
     if (!valid) {
@@ -64,7 +64,7 @@ test('has upper, lower, and symbol', () => {
   const tests = ['Ab%aaaaa', 'Àò!aaaaa'];
 
   tests.forEach(t => {
-    const actual = validate(t);
+    const actual = validate(t, false);
     if (!actual.valid) {
       console.log(`Failed with ${actual.message}`, t);
     }
@@ -76,7 +76,7 @@ test('has digit, upper, and symbol', () => {
   const tests = ['111GGG!!!!', 'Àò!aaaaa'];
 
   tests.forEach(t => {
-    const actual = validate(t);
+    const actual = validate(t, false);
     if (!actual.valid) {
       console.log(`Failed with ${actual.message} Input: ${t}`);
     }

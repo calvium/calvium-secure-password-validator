@@ -15,6 +15,17 @@ module.exports = {
     MIN_LENGTH: 8,
     MIN_CLASSES: 3,
   },
+  messages: {
+    requirements: `Password must contain at least three of the following: 
+- Uppercase characters of European languages
+- Lowercase characters of European languages
+- Base 10 digits (i.e. 0 through 9)
+- Non alphanumeric characters: ~!@#$%^&*_-+=\`\\|{}][)(;:’”<>,./?
+- Any Unicode character that is categorized as an alphabetic character but is not uppercase or lowercase.  This includes Unicode characters from Asian languages.
+`,
+    noSpaces: 'Passwords cannot contain spaces',
+    tooShort: minLength => 'Password is too short. ' + minLength + ' is the minimum',
+  },
 };
 
 // Notes: https://www.regular-expressions.info/unicode.html#prop defines the character classes proposed in ES6 (but not in Node 8.9.4)
