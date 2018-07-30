@@ -4,7 +4,7 @@
   "description": "A validator for secure passwords",
   "main": "src/index.js",
   "scripts": {
-    "test": "npm test"
+    "test": "jest"
   },
   "repository": {
     "type": "git",
@@ -12,8 +12,11 @@
   },
   "author": "Ben Clayton <ben@calvium.com> (https://www.calvium.com)",
   "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/calvium/calvium-secure-password-validator/issues"
+  "jest": {
+    "verbose": true
   },
-  "homepage": "https://github.com/calvium/calvium-secure-password-validator#readme"
+  "homepage": "https://github.com/calvium/calvium-secure-password-validator#readme",
+  "devDependencies": {
+    "jest": "^21.1.0"
+  }
 }
