@@ -21,6 +21,7 @@ test('uppercase Euro works with accented chars and ASCII', () => {
   expect(regex.uppercase.test('Ò')).toBe(true);
   expect(regex.uppercase.test('A')).toBe(true);
   expect(regex.uppercase.test('O')).toBe(true);
+  expect(regex.uppercase.test('Ω')).toBe(true);
   expect(regex.uppercase.test('a')).toBe(false);
   expect(regex.uppercase.test('o')).toBe(false);
 });
@@ -94,5 +95,18 @@ test('various failures', () => {
       console.log(`Unexpectedly passed password: ${t}`);
     }
     expect(actual.valid).toBe(false);
+  });
+});
+
+
+test('various successes', () => {
+  const tests = ['%$$Ω1!@$'];
+
+  tests.forEach(t => {
+    const actual = validate(t);
+    if (actual.valid) {
+      console.log(`Unexpectedly failed password: ${t}`);
+    }
+    expect(actual.valid).toBe(true);
   });
 });
