@@ -12,8 +12,8 @@ test('non admin: 7 chars is too short', () => {
 });
 
 test('admin: 13 chars is too short', () => {
-  expect(validate('abcdefg', true).valid).toBe(false);
-  expect(validate('abcdefg', true).message).toBe('Password is too short. 14 is the minimum');
+  expect(validate('abcdefghijk', true).valid).toBe(false);
+  expect(validate('abcdefghijk', true).message).toBe('Password is too short. 14 is the minimum');
 });
 
 test('uppercase Euro works with accented chars and ASCII', () => {
@@ -86,11 +86,11 @@ test('has digit, upper, and symbol', () => {
 });
 
 
-test('various failures', () => {
-  const tests = ['11111!!!!', 'ò!aaaaa', 'aaaaaaaaaaaaaa', '±±±±±±±±±§§§±±§§±±'];
+test('various failures for 2 Rules', () => {
+  const tests = ['!@£$%^&*()', 'abcdefghi', '123456789', '±±±±±±±±±§§§±±§§±±'];
 
   tests.forEach(t => {
-    const actual = validate(t);
+    const actual = validate(t, false, 2);
     if (actual.valid) {
       console.log(`Unexpectedly passed password: ${t}`);
     }
@@ -98,15 +98,62 @@ test('various failures', () => {
   });
 });
 
+test('various failures for 3 Rules', () => {
+    const tests = ['11111!!!!', 'ò!aaaaa', 'aaaaaaaaaaaaaa', '±±±±±±±±±§§§±±§§±±', 'AAAA1111', 'AAAAaaaa'];
 
-test('various successes', () => {
-  const tests = ['%$$Ω1!@$'];
+    tests.forEach(t => {
+        const actual = validate(t, false, 3);
+        if (actual.valid) {
+            console.log(`Unexpectedly passed password: ${t}`);
+        }
+        expect(actual.valid).toBe(false);
+    });
+});
+
+test('various failures for 4 Rules', () => {
+    const tests = ['11111!!!!', 'ò!aaaaa', 'aaaaaaaaaaaaaa', '±±±±±±±±±§§§±±§§±±', '%$$Ω1!@$', 'AA11aabb', '@@@aaa111'];
+
+    tests.forEach(t => {
+        const actual = validate(t, false, 4);
+        if (actual.valid) {
+            console.log(`Unexpectedly passed password: ${t}`);
+        }
+        expect(actual.valid).toBe(false);
+    });
+});
+
+test('various successes with 2 rules', () => {
+    const tests = ['%$$Ω1!@$', 'AAAA1111', 'AAAAaaaa'];
+
+    tests.forEach(t => {
+        const actual = validate(t, false, 2);
+        if (!actual.valid) {
+            console.log(`Unexpectedly failed password: ${t}`);
+        }
+        expect(actual.valid).toBe(true);
+    });
+});
+
+test('various successes with 3 rules', () => {
+  const tests = ['%$$Ω1!@$', 'AA11aabb', '@@@aaa111'];
 
   tests.forEach(t => {
     const actual = validate(t);
-    if (actual.valid) {
+    if (!actual.valid) {
       console.log(`Unexpectedly failed password: ${t}`);
     }
     expect(actual.valid).toBe(true);
   });
+});
+
+test('various successes with 4 rules', () => {
+    const tests = ['%$$Ω1!@$a', 'A1a!bbbb', ',.<>Aa1b'];
+
+    tests.forEach(t => {
+        const actual = validate(t, false, 4);
+        if (!actual.valid) {
+            console.log(`Unexpectedly failed password: ${t}`);
+        }
+        expect(actual.valid).toBe(true);
+    });
 });
